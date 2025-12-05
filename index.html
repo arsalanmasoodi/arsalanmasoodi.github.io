@@ -1,69 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Arsalan Masoodi | Resume</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arsalan Masoodi | Portfolio</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       background: #f5f5f5;
-      color: #333;
+      color: #222;
     }
 
-    .header {
-      padding: 30px;
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      color: white;
+      padding: 80px 20px;
       text-align: center;
-      background: white;
-      box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
     }
-
-    .header h1 {
-      margin: 0;
-      font-size: 36px;
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
     }
-
-    .header h2 {
-      margin: 10px 0 0 0;
+    .hero h2 {
       font-size: 20px;
-      font-weight: normal;
-      color: #666;
+      font-weight: 300;
+      opacity: 0.9;
+    }
+    .buttons {
+      margin-top: 25px;
+    }
+    .buttons a {
+      text-decoration: none;
+      background: white;
+      color: #3b82f6;
+      padding: 12px 22px;
+      margin: 8px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: 0.2s;
+      display: inline-block;
+    }
+    .buttons a:hover {
+      background: #e0e7ff;
     }
 
-    .pdf-container {
-      width: 100%;
-      height: 90vh;
+    /* Section Headers */
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      margin-top: 50px;
+      font-weight: bold;
+    }
+
+    /* Projects Grid */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      padding: 20px 40px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 3px 15px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      margin-top: 0;
+    }
+
+    /* Resume PDF Section */
+    .pdf-box {
       display: flex;
       justify-content: center;
+      margin: 40px 0;
     }
-
     iframe {
       width: 80%;
-      height: 100%;
+      height: 90vh;
       border: none;
-      box-shadow: 0px 2px 15px rgba(0,0,0,0.2);
+      box-shadow: 0px 5px 20px rgba(0,0,0,0.25);
     }
 
     @media (max-width: 800px) {
       iframe { width: 95%; }
+      .hero h1 { font-size: 36px; }
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      background: #1f2937;
+      color: white;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Header Section -->
-  <div class="header">
+  <!-- HERO -->
+  <div class="hero">
     <h1>Arsalan Masoodi</h1>
-    <h2>Electronics & Communication Engineering</h2>
+    <h2>Electronics & Communication Engineer · VLSI · Chip Design · Embedded</h2>
+
+    <div class="buttons">
+      <a href="Arsalan_resume.pdf" target="_blank">📄 View Resume</a>
+      <a href="https://github.com/arsalanmasoodi" target="_blank">🐙 GitHub</a>
+      <a href="#" target="_blank">🔗 LinkedIn</a>
+    </div>
   </div>
 
-  <!-- Embedded Resume -->
-  <div class="pdf-container">
+  <!-- PROJECTS -->
+  <div class="section-title">Projects</div>
+
+  <div class="projects">
+    <div class="card">
+      <h3>Ripple Carry Adder</h3>
+      <p>Designed full custom RCA in Cadence Virtuoso. Verified via Spectre and generated GDSII layout.</p>
+    </div>
+
+    <div class="card">
+      <h3>Audio Amplifier</h3>
+      <p>Designed and simulated amplifier using LTspice. Implemented PCB in KiCAD.</p>
+    </div>
+
+    <div class="card">
+      <h3>Spiking Neuron Simulation</h3>
+      <p>Worked with LIF neurons and spike generation modules for simple NPU simulation.</p>
+    </div>
+  </div>
+
+  <!-- RESUME VIEWER -->
+  <div class="section-title">Resume</div>
+
+  <div class="pdf-box">
     <iframe src="Arsalan_resume.pdf"></iframe>
   </div>
 
+  <!-- FOOTER -->
+  <footer>
+    © 2025 Arsalan Masoodi · Portfolio
+  </footer>
+
 </body>
 </html>
-
