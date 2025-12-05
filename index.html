@@ -1,281 +1,394 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Arsalan Masoodi | Portfolio</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Peerzada Arsalan Masoodi — Electronics & VLSI Portfolio</title>
 
-<!-- Google Icons -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- Fonts / AOS -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <style>
-  :root {
-    --bg: #f5f5f5;
-    --text: #222;
-    --card-bg: white;
-    --nav-bg: white;
+  /* ---------------- Global / Theme ---------------- */
+  :root{
+    --bg:#07080a;
+    --panel:#0f1720;
+    --muted:#9aa6b2;
+    --neon:#00ffb3;
+    --accent:#00d1ff;
+    --glass: rgba(255,255,255,0.03);
+    --card:#0b1014;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+  body{background:var(--bg);color:#e8eef4;line-height:1.45;-webkit-font-smoothing:antialiased;}
+  a{color:inherit}
+  img{max-width:100%;display:block}
 
-    /* Dark Mode */
-    --bg-dark: #0f172a;
-    --text-dark: #e2e8f0;
-    --card-bg-dark: #1e293b;
-    --nav-bg-dark: #1e293b;
+  /* ---------------- Navbar ---------------- */
+  nav{
+    position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 36px;
+    background:linear-gradient(180deg, rgba(6,8,10,0.55), rgba(6,8,10,0.35));backdrop-filter:blur(6px);z-index:40;border-bottom:1px solid rgba(0,255,179,0.05)
   }
+  nav .brand{font-weight:700;color:var(--neon);letter-spacing:0.6px}
+  nav .links{display:flex;gap:20px;align-items:center}
+  nav .links a{color:#cfeff6;text-decoration:none;font-weight:500;padding:8px 10px;border-radius:8px;transition:all .18s}
+  nav .links a:hover{color:var(--neon);transform:translateY(-2px)}
+  nav .links a.resume{background:linear-gradient(90deg,var(--neon),var(--accent));color:#001020;font-weight:700}
 
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    transition: background 0.3s, color 0.3s;
+  /* ---------------- Hero ---------------- */
+  .hero{
+    height:100vh;padding-top:72px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
   }
+  /* circuit canvas sits behind content */
+  canvas#circuit{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:0.9;mix-blend-mode:screen}
+  .hero-content{position:relative;z-index:10;max-width:1100px;padding:32px;text-align:center}
+  .hero h1{font-size:48px;margin:0;color:var(--neon);text-shadow:0 6px 28px rgba(0,255,179,0.06)}
+  .hero p.lead{margin:8px 0 20px;color:var(--muted);font-size:18px}
+  .hero .cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none;
+    background:linear-gradient(90deg,var(--neon),var(--accent));color:#00141a;box-shadow:0 6px 30px rgba(0,200,255,0.06);transition:transform .18s}
+  .btn.secondary{background:transparent;color:#cfeff6;border:1px solid rgba(255,255,255,0.04)}
+  .btn:hover{transform:translateY(-4px)}
 
-  body.dark {
-    background: var(--bg-dark);
-    color: var(--text-dark);
-  }
+  /* ---------------- Sections ---------------- */
+  section{padding:80px 36px}
+  .container{max-width:1100px;margin:0 auto;position:relative;z-index:5}
 
-  /* NAVBAR */
-  nav {
-    background: var(--nav-bg);
-    position: sticky;
-    top: 0;
-    width: 100%;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0px 2px 10px rgba(0,0,0,0.15);
-    transition: background 0.3s;
-  }
-  body.dark nav {
-    background: var(--nav-bg-dark);
-  }
-  nav a {
-    color: inherit;
-    text-decoration: none;
-    margin: 0 12px;
-    font-weight: bold;
-  }
+  .section-title{font-size:28px;color:var(--neon);margin-bottom:18px;font-weight:700}
 
-  /* Dark Mode Toggle */
-  #darkToggle {
-    cursor: pointer;
-    font-size: 28px;
+  /* ---------------- Projects Grid ---------------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(0,255,179,0.04);padding:18px;border-radius:14px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s;
   }
+  .card:hover{transform:translateY(-10px);box-shadow:0 24px 60px rgba(0,200,255,0.06)}
+  .card .thumb{border-radius:10px;overflow:hidden;margin-bottom:12px}
+  .card h3{margin:6px 0 8px;color:#eafcff}
+  .card p{color:var(--muted);font-size:14px;margin:0 0 8px}
+  .tech{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .chip{font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.02);color:var(--muted)}
 
-  /* HERO */
-  .hero {
-    background: linear-gradient(135deg, #3b82f6, #6366f1);
-    color: white;
-    text-align: center;
-    padding: 90px 20px;
-    animation: fadeIn 1.3s ease-in-out;
+  /* electric pulse line */
+  .card::after{
+    content:"";position:absolute;left:-50%;top:-40%;width:200%;height:200%;background:conic-gradient(from 160deg,#00ffb3 0deg,#00d1ff 60deg,transparent 120deg);
+    opacity:0;transition:opacity .25s,transform .6s;border-radius:40%;
+    transform:translateY(-20px) scale(0.95) rotate(10deg);
   }
-  .hero h1 {
-    font-size: 48px;
-    margin: 0;
-  }
-  .hero h2 {
-    font-size: 22px;
-    opacity: 0.9;
-    font-weight: lighter;
-  }
+  .card:hover::after{opacity:0.12;transform:translateY(0) scale(1) rotate(0deg)}
 
-  /* Buttons */
-  .buttons a {
-    text-decoration: none;
-    background: white;
-    color: #3b82f6;
-    padding: 10px 18px;
-    margin: 8px;
-    border-radius: 7px;
-    display: inline-block;
-    font-weight: bold;
-    transition: 0.2s;
-  }
-  .buttons a:hover {
-    background: #dbeafe;
-  }
+  /* ---------------- Skills ---------------- */
+  .skills{display:flex;flex-direction:column;gap:14px}
+  .skill-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .bar{height:14px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden;flex:1;margin-left:12px}
+  .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--accent));transition:width 1.3s ease}
 
-  /* Section Title */
-  .section-title {
-    text-align: center;
-    margin-top: 50px;
-    font-size: 30px;
-    font-weight: bold;
-    animation: fadeIn 1s ease;
-  }
+  /* ---------------- Resume embed ---------------- */
+  .resume-frame{width:100%;height:72vh;border-radius:12px;border:1px solid rgba(255,255,255,0.03);overflow:hidden}
+  iframe{width:100%;height:100%;border:0;display:block}
 
-  /* PROJECT CARDS */
-  .projects {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    padding: 30px;
+  /* ---------------- Footer ---------------- */
+  footer{text-align:center;padding:36px 12px;color:var(--muted);border-top:1px solid rgba(255,255,255,0.02)}
+  /* small screens */
+  @media (max-width:720px){
+    .hero h1{font-size:34px}
+    nav{padding:12px 18px}
+    section{padding:56px 18px}
   }
-  .card {
-    background: var(--card-bg);
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0px 3px 15px rgba(0,0,0,0.15);
-    transition: 0.3s ease;
-    animation: fadeInUp 1.1s ease;
-  }
-  body.dark .card {
-    background: var(--card-bg-dark);
-  }
-  .card:hover {
-    transform: translateY(-5px);
-  }
-  .card img {
-    width: 100%;
-    border-radius: 10px;
-  }
-  .card h3 {
-    margin-bottom: 5px;
-  }
-
-  /* Resume viewer */
-  .pdf-box {
-    display: flex;
-    justify-content: center;
-    margin: 40px 0;
-    animation: fadeIn 1s ease;
-  }
-  iframe {
-    width: 80%;
-    height: 95vh;
-    border: none;
-    box-shadow: 0px 5px 20px rgba(0,0,0,0.25);
-  }
-
-  /* CONTACT FORM */
-  .contact {
-    width: 90%;
-    max-width: 600px;
-    margin: auto;
-    background: var(--card-bg);
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0px 5px 20px rgba(0,0,0,0.15);
-    animation: fadeInUp 1s ease;
-  }
-  body.dark .contact {
-    background: var(--card-bg-dark);
-  }
-  .contact input, .contact textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-  }
-  .contact button {
-    padding: 12px 18px;
-    background: #3b82f6;
-    border-radius: 8px;
-    color: white;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 20px;
-    margin-top: 50px;
-    background: #1f2937;
-    color: white;
-  }
-
-  /* Animations */
-  @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-  @keyframes fadeInUp { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
 </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
+<!-- NAV -->
 <nav>
-  <div>
-    <a href="#home">Home</a>
+  <div class="brand">Peerzada Arsalan Masoodi</div>
+  <div class="links">
+    <a href="#hero">Home</a>
     <a href="#projects">Projects</a>
-    <a href="#resume">Resume</a>
-    <a href="#contact">Contact</a>
+    <a href="#skills">Skills</a>
+    <a href="#resume" class="resume">Resume</a>
+    <a href="https://github.com/arsalanmasoodi" target="_blank" rel="noopener">GitHub</a>
   </div>
-
-  <span id="darkToggle" class="material-icons">dark_mode</span>
 </nav>
 
 <!-- HERO -->
-<div class="hero" id="home">
-  <h1>Arsalan Masoodi</h1>
-  <h2>Electronics • VLSI • Chip Design • Embedded Systems</h2>
+<section class="hero" id="hero" aria-labelledby="intro-heading">
+  <canvas id="circuit"></canvas>
 
-  <div class="buttons">
-    <a href="Arsalan_resume.pdf" target="_blank">📄 View Resume</a>
-    <a href="https://github.com/arsalanmasoodi" target="_blank">🐙 GitHub</a>
+  <div class="hero-content container" data-aos="fade-up">
+    <h1 id="intro-heading">Peerzada Arsalan Masoodi</h1>
+    <p class="lead">B.Tech. Electronics & Communication — Electronics • VLSI • SNN • Chip Design</p>
+
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap" class="cta">
+      <a class="btn btn-main btn-primary btn" href="Arsalan_resume.pdf" target="_blank" rel="noopener">📄 View Resume</a>
+      <a class="btn btn-secondary btn" href="https://github.com/arsalanmasoodi" target="_blank" rel="noopener" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:#cfeff6">💻 GitHub</a>
+    </div>
+
+    <p style="margin-top:18px;color:var(--muted);font-size:14px">
+      Phone: <strong style="color:var(--neon)">+91 9149510564</strong> &nbsp; | &nbsp;
+      Email: <strong style="color:var(--neon)"><a href="mailto:arsalanmasoodi@outlook.com" style="color:var(--neon);text-decoration:none">arsalanmasoodi@outlook.com</a></strong>
+    </p>
   </div>
-</div>
+</section>
 
-<!-- PROJECTS -->
-<div class="section-title" id="projects">Projects</div>
+<!-- PROJECTS (use LaTeX entries trimmed to highlight) -->
+<section id="projects">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Selected Projects</h2>
 
-<div class="projects">
+    <div class="grid">
+      <!-- Digital Soldering Station -->
+      <article class="card" data-aos="fade-up">
+        <div class="thumb"><img src="soldering.png" alt="Digital Soldering Station"></div>
+        <h3>Digital Soldering Station</h3>
+        <p>Designed a PLL-based temperature control; full PCB implementation using Arduino Nano; 3D outer casing modelled in OnShape.</p>
+        <div class="tech">
+          <span class="chip">LTspice</span>
+          <span class="chip">KiCAD</span>
+          <span class="chip">OnShape</span>
+        </div>
+      </article>
 
-  <div class="card">
-    <img src="rca.png" alt="RCA Project">
-    <h3>Ripple Carry Adder</h3>
-    <p>Custom transistor-level RCA in Cadence Virtuoso. Simulated with Spectre, generated GDSII.</p>
+      <!-- Ripple Carry Adder -->
+      <article class="card" data-aos="fade-up" data-aos-delay="80">
+        <div class="thumb"><img src="rca.png" alt="Ripple Carry Adder"></div>
+        <h3>Ripple Carry Adder</h3>
+        <p>Custom ripple-carry adder at transistor level; simulated with Spectre; GDSII layout exported using Cadence Virtuoso.</p>
+        <div class="tech">
+          <span class="chip">Cadence Virtuoso</span>
+          <span class="chip">Spectre</span>
+        </div>
+      </article>
+
+      <!-- Audio Amplifier -->
+      <article class="card" data-aos="fade-up" data-aos-delay="160">
+        <div class="thumb"><img src="amp.png" alt="Audio Amplifier"></div>
+        <h3>Audio Amplifier</h3>
+        <p>Designed and simulated amplifier in LTspice; PCB routed in KiCAD; tested frequency &amp; gain responses on hardware.</p>
+        <div class="tech">
+          <span class="chip">LTspice</span>
+          <span class="chip">KiCAD</span>
+        </div>
+      </article>
+
+      <!-- Microstrip Patch Antenna -->
+      <article class="card" data-aos="fade-up" data-aos-delay="240">
+        <div class="thumb"><img src="antenna.png" alt="Microstrip Patch Antenna"></div>
+        <h3>Microstrip Patch Antenna</h3>
+        <p>2.4 GHz microstrip patch antenna with circular polarization designed in CST; fabricated and validated on PCB substrate.</p>
+        <div class="tech">
+          <span class="chip">CST Studio</span>
+          <span class="chip">PCB Fabrication</span>
+        </div>
+      </article>
+
+      <!-- Spiking Neural Network -->
+      <article class="card" data-aos="fade-up" data-aos-delay="320">
+        <div class="thumb"><img src="snn.png" alt="Spiking Neural Network"></div>
+        <h3>Spiking Neural Network (Tiny NPU)</h3>
+        <p>LIF neuron models and spike generation; RTL experiments and simulations verified in Icarus Verilog / OpenSpike environment.</p>
+        <div class="tech">
+          <span class="chip">Icarus Verilog</span>
+          <span class="chip">OpenSpike</span>
+        </div>
+      </article>
+    </div>
   </div>
+</section>
 
-  <div class="card">
-    <img src="amp.png" alt="Audio Amplifier">
-    <h3>Audio Amplifier</h3>
-    <p>LTspice simulations + KiCad PCB. Frequency response optimized for clean audio gain.</p>
+<!-- SKILLS / TECH (from LaTeX Technical Skills) -->
+<section id="skills">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Technical Skills</h2>
+
+    <div class="skills" data-aos="fade-up" data-aos-delay="80">
+      <!-- Programming -->
+      <div class="skill-row">
+        <div style="min-width:120px">Programming</div>
+        <div class="bar"><div class="bar-fill" data-fill="90%">Python</div></div>
+      </div>
+
+      <!-- HDLs -->
+      <div class="skill-row">
+        <div style="min-width:120px">HDL & Embedded</div>
+        <div class="bar"><div class="bar-fill" data-fill="80%">Verilog / Embedded C</div></div>
+      </div>
+
+      <!-- VLSI Tools -->
+      <div class="skill-row">
+        <div style="min-width:120px">VLSI & EDA</div>
+        <div class="bar"><div class="bar-fill" data-fill="82%">Cadence / Spectre / OpenROAD</div></div>
+      </div>
+
+      <!-- Circuit Tools -->
+      <div class="skill-row">
+        <div style="min-width:120px">Circuit & PCB</div>
+        <div class="bar"><div class="bar-fill" data-fill="78%">LTspice / KiCAD / CST</div></div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="card">
-    <img src="snn.png" alt="SNN">
-    <h3>Spiking Neuron Model</h3>
-    <p>LIF neuron simulation for custom NPU prototype. RTL experiments in Verilog.</p>
+<!-- RESUME (embedded PDF) -->
+<section id="resume">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Resume</h2>
+    <div class="resume-frame" data-aos="fade-up" data-aos-delay="80">
+      <iframe src="Arsalan_resume.pdf" title="Peerzada Arsalan Masoodi Resume"></iframe>
+    </div>
+    <p style="text-align:center;margin-top:12px;color:var(--muted);font-size:14px">Download: <a href="Arsalan_resume.pdf" style="color:var(--neon)" download>Arsalan_resume.pdf</a></p>
   </div>
+</section>
 
-</div>
+<!-- EXPERIENCE & LEADERSHIP -->
+<section id="experience">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Experience & Leadership</h2>
 
-<!-- RESUME -->
-<div class="section-title" id="resume">Resume</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px" data-aos="fade-up" data-aos-delay="80">
+      <div class="card">
+        <h3>Undergraduate Research Intern — National Institute of Technology (Srinagar)</h3>
+        <p style="color:var(--muted)">June 2024 – July 2024</p>
+        <ul style="color:var(--muted);margin-top:8px">
+          <li>Hands-on research in semiconductor device physics under Dr. Sheikh Amir Ahsan.</li>
+          <li>Analyzed device characteristics in <strong>LTspice</strong> (MOSFET I–V, small-signal, transient).</li>
+          <li>Translated device insights into CMOS design techniques (threshold tuning, leakage control).</li>
+        </ul>
+      </div>
 
-<div class="pdf-box">
-  <iframe src="Arsalan_resume.pdf"></iframe>
-</div>
+      <div class="card">
+        <h3>Leadership & Extracurricular</h3>
+        <p style="color:var(--muted)">Tarang — Member (Dec 2024 – Present)</p>
+        <ul style="color:var(--muted);margin-top:8px">
+          <li>Managed events at EKATVA-2025; organized Boat Race & PCB design competition rounds.</li>
+          <li>Vikalp (Apr 2023 – Present): teaching underprivileged children technical skills.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- CONTACT FORM -->
-<div class="section-title" id="contact">Contact Me</div>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Contact</h2>
+    <div data-aos="fade-up" data-aos-delay="80" style="max-width:720px;margin:0 auto">
+      <form action="https://formspree.io/f/xyzybqyb" method="POST" style="display:grid;gap:12px">
+        <input name="name" placeholder="Your name" required style="padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit">
+        <input name="email" placeholder="Your email" type="email" required style="padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit">
+        <textarea name="message" rows="6" placeholder="Message" required style="padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit"></textarea>
+        <div style="display:flex;gap:12px;justify-content:flex-end">
+          <button type="submit" style="padding:10px 16px;border-radius:10px;background:linear-gradient(90deg,var(--neon),var(--accent));border:none;font-weight:700;color:#00141a">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
 
-<div class="contact">
-  <form action="https://formspree.io/f/xyzybqyb" method="POST">
-    <input type="text" name="name" placeholder="Your name" required>
-    <input type="email" name="email" placeholder="Your email" required>
-    <textarea name="message" rows="5" placeholder="Your message..." required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
-</div>
-
-<!-- FOOTER -->
 <footer>
-  © 2025 Arsalan Masoodi • Portfolio Website
+  © 2025 Peerzada Arsalan Masoodi — <span style="color:var(--neon)">Electronics & VLSI</span>
 </footer>
 
+<!-- Scripts (AOS + circuit canvas + UI interactions) -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-  const toggle = document.getElementById('darkToggle');
-  toggle.onclick = () => document.body.classList.toggle('dark');
-</script>
+  AOS.init({once:true, duration:800, offset:80});
 
+  /* --- circuit-style animated canvas background --- */
+  const canvas = document.getElementById('circuit');
+  const ctx = canvas.getContext('2d');
+  function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+  window.addEventListener('resize', resize); resize();
+
+  // create nodes (like PCB nodes) and slow motion
+  const N = Math.round((canvas.width * canvas.height) / 120000);
+  let nodes = [];
+  for(let i=0;i<Math.max(N,60);i++){
+    nodes.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      vx: (Math.random()-0.5)*0.2,
+      vy: (Math.random()-0.5)*0.2,
+      r: 1 + Math.random()*2
+    });
+  }
+
+  function step(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    // draw links
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const a = nodes[i], b = nodes[j];
+        const dx = a.x-b.x, dy = a.y-b.y;
+        const d = Math.hypot(dx,dy);
+        if(d < 140){
+          const alpha = 0.12 * (1 - d/140);
+          ctx.strokeStyle = 'rgba(0,255,179,'+alpha+')';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x,a.y);
+          ctx.lineTo(b.x,b.y);
+          ctx.stroke();
+        }
+      }
+    }
+    // draw nodes and move
+    for(let n of nodes){
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(0,255,179,0.9)';
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+      ctx.fill();
+      n.x += n.vx; n.y += n.vy;
+      if(n.x < -10) n.x = canvas.width + 10;
+      if(n.x > canvas.width + 10) n.x = -10;
+      if(n.y < -10) n.y = canvas.height + 10;
+      if(n.y > canvas.height + 10) n.y = -10;
+    }
+    requestAnimationFrame(step);
+  }
+  step();
+
+  /* --- skill bar reveal on scroll --- */
+  const fills = document.querySelectorAll('.bar-fill');
+  function revealSkills(){
+    fills.forEach(f => {
+      const rect = f.getBoundingClientRect();
+      if(rect.top < innerHeight - 80) f.style.width = f.dataset.fill;
+    });
+  }
+  window.addEventListener('scroll', revealSkills);
+  revealSkills();
+
+  /* --- scroll-spy (highlight nav link) --- */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav .links a');
+  function spy(){
+    const fromTop = window.scrollY + 110;
+    sections.forEach(sec => {
+      if(sec.offsetTop <= fromTop && sec.offsetTop + sec.offsetHeight > fromTop){
+        navLinks.forEach(a => a.classList.remove('active'));
+        const anchor = document.querySelector('nav .links a[href="#'+sec.id+'"]');
+        if(anchor) anchor.classList.add('active');
+      }
+    });
+  }
+  window.addEventListener('scroll', spy); spy();
+
+  /* --- smooth scrolling for nav anchors --- */
+  document.querySelectorAll('nav .links a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+
+  /* --- ensure resume & github clickable in nav; already target _blank above --- */
+
+</script>
 </body>
 </html>
